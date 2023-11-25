@@ -22,6 +22,12 @@ export const TweetCard = ({ id, content }) => {
     router.refresh();
   }
 
+  async function handleCancel () {
+    setRecentTweet(null);
+    setOnEdit(false);
+    setRecentTweet(content)
+  };
+
   async function handleUpdate() {
     const res = await fetch(
       `https://devscale-mockapi.fly.dev/api/collections/notes/records/${id}`,
@@ -45,7 +51,7 @@ export const TweetCard = ({ id, content }) => {
   return (
     <div className="my-6">
       <div className="card border-y border-b-0 border-gray-500 w-full ">
-        <div className=" mx-auto max-w-2xl p-4  flex justify-between ">
+        <div className=" mx-auto max-w-2xl p-4 flex justify-between ">
 
           <div className="flex flex-row space-x-4">
             <img
@@ -65,10 +71,29 @@ export const TweetCard = ({ id, content }) => {
             <div>
               <div>
               {onEdit ? (
-                <input value={recentTweet.content} onChange={(e) => setRecentTweet(e.target.value)} className="border-2 p-2 rounded-lg" />
+
+                <div className="flex flex-row space-x-4">
+                  <input value={recentTweet} onChange={(e) => setRecentTweet(e.target.value)} className=" p-2 border-b-2  bg-black text-white " /> 
+                <div className="flex space-x-2  ">
+                  <button className="text-sm  bg-blue-800  p-2 rounded-full" onClick={handleUpdate}>
+                    Update
+                  </button>
+                  <button className="text-sm  bg-red-800  p-2 rounded-full" onClick={handleCancel} >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
                 ) : (
                 <div>{recentTweet}</div>
               )}
+
+
+              
+                
+
+              
+               
               
             </div>
             </div>
@@ -120,7 +145,8 @@ export const TweetCard = ({ id, content }) => {
                               ? "bg-gray-100 text-gray-900"
                               : "text-gray-700",
                             "block px-4 py-2 text-sm"
-                          )} onEdit
+                          )} onClick={() => setOnEdit(true)}
+
                         >
                           Edit Tweet
                         </a>

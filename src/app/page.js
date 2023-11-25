@@ -2,25 +2,27 @@ import { TweetCard } from "@/components/TweetCard";
 import { TweetInput } from "@/components/TweetInput";
 
 async function getTweet() {
-  const res = await fetch("https://devscale-mockapi.fly.dev/api/collections/notes/records?filter=(user='melfirasyahnazz@gmail.com')", {cache: "no-store"});
+  const res = await fetch("https://devscale-mockapi.fly.dev/api/collections/notes/records?filter=(user='melfirasyahnazz@gmail.com')", {cache: "no-store", next: {
+    tags: ["posts"]
+  }});
   const data = await res.json();
-  return data;
+return data;
 }
 
 export default async function Page() {
   const {items} = await getTweet()
-  console.log(items)
+  items.sort((a, b) => new Date(b.created) - new Date(a.created));
 
   return (
    
       <div className="mx-auto max-w-2xl p-4 border-x-2 border-gray-500">
         <div>
-          <header className="relative h-36 bg-zinc-600 m-y-20">
+          <div className="relative h-36 bg-gray-800 m-y-20">
           <img
             className="absolute bottom-0 left-0 -mb-[64px] ml-4 rounded-full border-4 border-black bg-black"
             src="https://via.placeholder.com/150"
             alt="Profile" width={128} height={128}/>  
-        </header> 
+        </div> 
         </div>
         
 

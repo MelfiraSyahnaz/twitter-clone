@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {revalidateTag } from "next/cache"
 
 export const TweetInput = () => {
   const router = useRouter();
@@ -16,9 +17,8 @@ export const TweetInput = () => {
       body: JSON.stringify({ content: recentTweet, user: "melfirasyahnazz@gmail.com", additionalData: "" }),
     });
     const data = await res.json();
-    console.log(data);
-    router.refresh();
-  }
+    console.log(data)
+    revalidateTag("posts")}
 
   return (
     <div>
